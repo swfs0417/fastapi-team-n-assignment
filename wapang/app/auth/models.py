@@ -1,8 +1,9 @@
 from datetime import datetime
 
-from sqlalchemy import String, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, DateTime
 from wapang.database.common import Base
+
 
 class BlockedToken(Base):
     __tablename__ = "blocked_tokens"

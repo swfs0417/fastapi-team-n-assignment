@@ -48,7 +48,6 @@ def client(db_session: orm.Session) -> Iterable[TestClient]:
     def override_get_db_session():
         try:
             yield db_session
-            db_session.commit()
         except Exception:
             db_session.rollback()
             raise

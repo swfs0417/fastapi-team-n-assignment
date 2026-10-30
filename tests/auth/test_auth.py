@@ -49,9 +49,8 @@ def test_blocked_token_insert_race_is_auth_error(db_session, monkeypatch):
     repository = AuthRepository(db_session)
     expires = datetime(2030, 1, 1)
     repository.block_refresh_token("same-token", expires)
-    db_session.commit()
     # 다른 요청이 사전 조회 직후 토큰을 폐기한 상황을 재현합니다.
     monkeypatch.setattr(db_session, "get", lambda *args: None)
     with pytest.raises(InvalidTokenException):
         repository.block_refresh_token("same-token", expires)
-    db_session.rollback()
+    assert db_session.is_active

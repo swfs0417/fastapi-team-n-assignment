@@ -15,7 +15,8 @@ class UserRepository:
         user = User(email=email, hashed_password=hashed_password)
         self.session.add(user)
 
-        self.session.flush()
+        self.session.commit()
+        self.session.refresh(user)
         
         return user
 

@@ -23,7 +23,8 @@ class AuthRepository:
         )
         self.session.add(blocked_token)
         try:
-            self.session.flush()
+            self.session.commit()
         except IntegrityError as exc:
+            self.session.rollback()
             # 다른 요청이 먼저 같은 토큰을 폐기한 경우도 인증 오류로 처리합니다.
             raise InvalidTokenException() from exc
